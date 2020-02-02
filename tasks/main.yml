@@ -1,0 +1,34 @@
+---
+
+- name: "Harden sshd_config file"
+  tags: firewall
+  template:
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 420
+    src: sshd_config.conf
+
+- name: Allow all access to tcp ports 22,80,443
+  tags: firewall
+  ufw:
+    port: "{{ item }}"
+    proto: tcp
+    rule: allow
+  with_items:
+    - 22
+    - 80
+    - 443
+
+- name: Enable and restart sshd
+  tags: firewall
+  service:
+    enabled: yes
+    name: sshd
+    state: restarted
+
+
+- name: Enable ufw
+  tags: firewall
+  ufw:
+    state: enabled
