@@ -16,9 +16,9 @@
     proto: tcp
     rule: allow
   with_items:
-    - 22
-    - 80
-    - 443
+    - "22"
+    - "80"
+    - "443"
 
 - name: Enable and restart sshd
   tags: firewall
